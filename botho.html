@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOTHO Advisor</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS Custom Configuration for Dusty Rose Palette -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Define a custom 'rose' color palette for dusty rose shades
+                        rose: {
+                            50: '#FFF5F5',    // Very light pinkish-grey
+                            100: '#FEE8E8',
+                            200: '#FDCACA',
+                            300: '#F9A8A8',
+                            400: '#F07D7D',
+                            500: '#D4A29B',    // Main dusty rose
+                            600: '#B88B85',    // Slightly darker, for buttons
+                            700: '#9C7470',    // Darker, for button hover
+                            800: '#815C5A',
+                            900: '#6B4D4B',    // Darkest, for navigation background
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        /* Body now uses flex-col to stack its children (container) vertically */
+        body { font-family: 'Inter', sans-serif; background-color: #f4f7f6; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 1rem; }
+        .container { max-width: 1200px; }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #555; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col p-4">
+
+    <div class="container bg-white shadow-xl rounded-2xl overflow-hidden w-full max-w-4xl flex flex-col"> <!-- Container stacks nav and main vertically -->
+        <!-- Navigation Header - Now consistently horizontal -->
+        <nav class="w-full bg-rose-900 text-white p-4 flex items-center justify-between rounded-t-2xl overflow-x-auto"> <!-- Reverted padding to make nav bar original height -->
+            <div class="flex-shrink-0"> <!-- Prevents logo from shrinking -->
+                <h1 class="text-3xl font-bold text-center sm:text-left">BOTHO Advisor</h1>
+            </div>
+            <ul class="flex items-center space-x-4 flex-nowrap pl-4"> <!-- Ensures single line, adds padding-left to separate from logo -->
+                <li>
+                    <a href="#" data-section="home" class="block py-2 px-3 rounded-lg hover:bg-rose-800 transition-colors duration-200 flex items-center text-xs whitespace-nowrap">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2 2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h.01"></path></svg>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="social-enterprise" class="block py-2 px-3 rounded-lg hover:bg-rose-800 transition-colors duration-200 flex items-center text-xs whitespace-nowrap">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V4m0 8v4m-4 0h8m-4-8h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Social Enterprises
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="investment-recommendations" class="block py-2 px-3 rounded-lg hover:bg-rose-800 transition-colors duration-200 flex items-center text-xs whitespace-nowrap">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c-1.38 0-2.5-1.12-2.5-2.5S7.62 14 9 14s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM21 17c-1.38 0-2.5-1.12-2.5-2.5S19.62 12 21 12s2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM9 14V3l12 3v11"></path></svg>
+                        Investment Recommendations
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="discover" class="block py-2 px-3 rounded-lg hover:bg-rose-800 transition-colors duration-200 flex items-center text-xs whitespace-nowrap">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5L20 20"></path></svg>
+                        Discover Charities
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="history" class="block py-2 px-3 rounded-lg hover:bg-rose-800 transition-colors duration-200 flex items-center text-xs whitespace-nowrap">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        Donation History
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="recurring" class="block py-2 px-3 rounded-lg hover:bg-rose-800 transition-colors duration-200 flex items-center text-xs whitespace-nowrap">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h.01M17 11h.01M16 16h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Manage Recurring
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <main class="w-full p-10 overflow-y-auto flex-grow bg-gray-50 rounded-b-2xl"> <!-- Flex-grow added, h-[80vh] removed -->
+            <!-- Landing Page Section (NEW) -->
+            <section id="home-section" class="relative bg-cover bg-center h-[50vh] rounded-xl shadow-lg mb-10 flex items-center justify-center p-6 text-center" style="background-image: url('https://images.unsplash.com/photo-1517487881594-2787fef5ee46?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+                <div class="absolute inset-0 bg-black opacity-50 rounded-xl"></div>
+                <div class="relative z-10 text-white">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-4">Empowering Change, Together.</h2>
+                    <p class="text-lg md:text-xl mb-6">Discover and Invest in Charities & Social Enterprises that Shape a Better Tomorrow.</p>
+                    <button class="bg-rose-600 text-white py-3 px-8 rounded-full text-lg font-semibold hover:bg-rose-700 transition-colors duration-200 shadow-md" onclick="currentPage = 'discover'; renderPage();">
+                        Explore Opportunities Now!
+                    </button>
+                </div>
+            </section>
+
+            <!-- Social Enterprise Section -->
+            <section id="social-enterprise-section" class="hidden">
+                <!-- Removed the placeholder image here -->
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6">Social Enterprises Seeking Investment</h2>
+                <div class="mb-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <input type="text" id="social-enterprise-search-input" placeholder="Search by sector or keyword..." class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500 shadow-sm">
+                    <select id="social-enterprise-category-filter" class="p-3 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500 shadow-sm">
+                        <option value="">All Sectors</option>
+                        <option value="Renewable Energy">Renewable Energy</option>
+                        <option value="Sustainable Agriculture">Sustainable Agriculture</option>
+                        <option value="EdTech">EdTech</option>
+                        <option value="HealthTech">HealthTech</option>
+                        <option value="Waste Management">Waste Management</option>
+                        <option value="Artisan Support">Artisan Support</option>
+                        <option value="Youth Development">Youth Development</option>
+                        <option value="Community Development">Community Development</option>
+                    </select>
+                </div>
+                <div id="social-enterprise-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Social Enterprise Cards will be dynamically loaded here -->
+                </div>
+                <p class="text-gray-600 mt-8 text-center">
+                    Interested in listing your social enterprise? <a href="javascript:void(0);" class="text-rose-600 hover:underline">Contact us!</a>
+                </p>
+            </section>
+
+            <!-- Investment Recommendations Section -->
+            <section id="investment-recommendations-section" class="hidden">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6">Personalized Investment Recommendations</h2>
+                <p class="text-gray-700 mb-6">
+                    Based on your spending patterns and interests, here are some investment opportunities that align with your values and financial goals.
+                </p>
+                <div id="recommendations-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                    <!-- Investment Recommendation Cards will be dynamically loaded here -->
+                </div>
+                <div class="bg-blue-50 border-l-4 border-blue-400 text-blue-800 p-4 rounded mt-8" role="alert">
+                    <p class="font-bold">Disclaimer:</p>
+                    <p class="text-sm">These recommendations are for informational purposes only and do not constitute financial advice. Please consult with a qualified financial advisor before making any investment decisions.</p>
+                </div>
+            </section>
+
+            <!-- Discover Charities Section -->
+            <section id="discover-section" class="hidden">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6">Discover Charities</h2>
+                <div class="mb-6 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                    <input type="text" id="search-input" placeholder="Search by name or keyword..." class="flex-grow p-3 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500 shadow-sm">
+                    <select id="category-filter" class="p-3 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500 shadow-sm">
+                        <option value="">All Categories</option>
+                        <option value="Children & Youth">Children & Youth</option>
+                        <option value="Wildlife & Environment">Wildlife & Environment</option>
+                        <option value="Health">Health</option>
+                        <option value="Other Development">Other Development</option>
+                    </select>
+                </div>
+                <h3 class="text-2xl font-medium text-gray-700 mb-4">Featured Charities</h3>
+                <div id="featured-charities" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"></div>
+                <h3 class="text-2xl font-medium text-gray-700 mb-4">Recommended for You</h3>
+                <div id="recommended-charities" class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"></div>
+                <h3 class="text-2xl font-medium text-gray-700 mb-4">All Charities</h3>
+                <div id="all-charities-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </section>
+
+            <!-- Charity Profile Section -->
+            <section id="profile-section" class="hidden">
+                <button id="back-to-discover" class="mb-6 text-rose-600 hover:text-rose-800 flex items-center font-medium">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> Back to Discover
+                </button>
+                <div id="charity-profile-content" class="bg-white p-6 rounded-xl shadow-lg"></div>
+                <div class="mt-8 flex justify-center">
+                    <button id="donate-now-button" class="bg-rose-600 text-white py-3 px-8 rounded-full text-lg font-semibold hover:bg-rose-700 transition-colors duration-200 shadow-md">
+                        Donate Now
+                    </button>
+                </div>
+            </section>
+
+            <!-- Donate Section -->
+            <section id="donate-section" class="hidden">
+                <button id="back-to-profile" class="mb-6 text-rose-600 hover:text-rose-800 flex items-center font-medium">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> Back to Charity Profile
+                </button>
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6">Make a Donation</h2>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 id="donating-to-charity-name" class="text-2xl font-medium text-gray-700 mb-4">Donating to: [Charity Name]</h3>
+                    <form id="donation-form" class="space-y-6">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Donation Type</label>
+                            <div class="flex space-x-4">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="donation-type" value="one-time" class="form-radio h-5 w-5 text-rose-600" checked> <span class="ml-2 text-gray-800">One-Time</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="donation-type" value="recurring" class="form-radio h-5 w-5 text-rose-600"> <span class="ml-2 text-gray-800">Recurring</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="recurring-options" class="hidden">
+                            <label for="recurrence-frequency" class="block text-gray-700 text-sm font-bold mb-2">Frequency</label>
+                            <select id="recurrence-frequency" name="recurrence-frequency" class="block w-full p-3 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500 shadow-sm">
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly">Monthly</option>
+                                <option value="quarterly">Quarterly</option>
+                                <option value="annually">Annually</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Donation Amount (Pula)</label>
+                            <div class="flex flex-wrap gap-4 mb-4">
+                                <button type="button" class="preset-amount-button bg-gray-200 text-gray-800 py-2 px-6 rounded-full hover:bg-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2" data-amount="10">P10</button>
+                                <button type="button" class="preset-amount-button bg-gray-200 text-gray-800 py-2 px-6 rounded-full hover:bg-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2" data-amount="25">P25</button>
+                                <button type="button" class="preset-amount-button bg-gray-200 text-gray-800 py-2 px-6 rounded-full hover:bg-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2" data-amount="50">P50</button>
+                                <button type="button" class="preset-amount-button bg-gray-200 text-gray-800 py-2 px-6 rounded-full hover:bg-gray-300 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2" data-amount="100">P100</button>
+                            </div>
+                            <input type="number" id="other-amount" placeholder="Other Amount (e.g., 75)" class="block w-full p-3 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500 shadow-sm" min="1">
+                        </div>
+                        <div>
+                            <label for="payment-method" class="block text-gray-700 text-sm font-bold mb-2">Payment Method</label>
+                            <select id="payment-method" name="payment-method" class="block w-full p-3 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500 shadow-sm">
+                                <option value="checking">Checking Account (***1234)</option>
+                                <option value="savings">Savings Account (***5678)</option>
+                                <option value="credit-card">Credit Card (***9012)</option>
+                            </select>
+                        </div>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="anonymous-donation" class="form-checkbox h-5 w-5 text-rose-600 rounded">
+                            <label for="anonymous-donation" class="ml-2 text-gray-800">Donate Anonymously</label>
+                        </div>
+                        <button type="submit" class="w-full bg-rose-600 text-white py-3 rounded-full text-lg font-semibold hover:bg-rose-700 transition-colors duration-200 shadow-md">
+                            Confirm Donation
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Investment Section (NEW) -->
+            <section id="investment-section" class="hidden">
+                <button id="back-to-social-enterprises" class="mb-6 text-rose-600 hover:text-rose-800 flex items-center font-medium">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg> Back to Social Enterprises
+                </button>
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6">Make an Investment</h2>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <h3 id="investing-in-social-enterprise-name" class="text-2xl font-medium text-gray-700 mb-4">Investing in: [Social Enterprise Name]</h3>
+                    <form id="investment-form" class="space-y-6">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-bold mb-2">Investment Amount (Pula)</label>
+                            <input type="number" id="investment-amount" placeholder="e.g., 5000" class="block w-full p-3 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500 shadow-sm" min="1">
+                        </div>
+                        <div>
+                            <label for="investment-payment-method" class="block text-gray-700 text-sm font-bold mb-2">Payment Method</label>
+                            <select id="investment-payment-method" name="payment-method" class="block w-full p-3 border border-gray-300 rounded-lg focus:ring-rose-500 focus:border-rose-500 shadow-sm">
+                                <option value="checking">Checking Account (***1234)</option>
+                                <option value="savings">Savings Account (***5678)</option>
+                                <option value="credit-card">Credit Card (***9012)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full bg-rose-600 text-white py-3 rounded-full text-lg font-semibold hover:bg-rose-700 transition-colors duration-200 shadow-md">
+                            Confirm Investment
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Donation History Section -->
+            <section id="history-section" class="hidden">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6">Your Donation History</h2>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <div class="mb-6">
+                        <h3 class="text-2xl font-medium text-gray-700 mb-2">Overview</h3>
+                        <p class="text-lg text-gray-600">Total Donations: <span id="total-donations" class="font-semibold text-rose-600">P0.00</span></p>
+                        <p class="text-lg text-gray-600">Charities Supported: <span id="charities-supported" class="font-semibold text-rose-600">0</span></p>
+
+                        <!-- Removed Lifetime Donations Progress Bar -->
+                        <!-- Removed Monthly Donations Progress Bar -->
+
+                        <button id="generate-annual-statement" class="mt-4 bg-gray-200 text-gray-800 py-2 px-4 rounded-full hover:bg-gray-300 transition-colors duration-200 shadow-sm">
+                            Generate Annual Statement
+                        </button>
+                    </div>
+                    <h3 class="text-2xl font-medium text-gray-700 mb-4">Transaction Details</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white rounded-lg overflow-hidden shadow-sm">
+                            <thead class="bg-gray-100 border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Charity</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Receipt</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transaction-history-table" class="divide-y divide-gray-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recurring Donations Section -->
+            <section id="recurring-section" class="hidden">
+                <h2 class="text-3xl font-semibold text-gray-800 mb-6">Manage Recurring Donations</h2>
+                <div class="bg-white p-6 rounded-xl shadow-lg">
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full bg-white rounded-lg overflow-hidden shadow-sm">
+                            <thead class="bg-gray-100 border-b border-gray-200">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Charity</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Frequency</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Next Due</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="recurring-donations-table" class="divide-y divide-gray-200"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Message Modal -->
+    <div id="message-modal" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 hidden z-50">
+        <div class="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm transform transition-all scale-95 opacity-0" id="message-modal-content">
+            <h3 id="message-modal-title" class="text-xl font-semibold mb-4 text-gray-800"></h3>
+            <p id="message-modal-body" class="text-gray-600 mb-6"></p>
+            <div class="flex justify-end space-x-3">
+                <button id="message-modal-download-btn" class="bg-blue-600 text-white py-2 px-4 rounded-full hover:bg-blue-700 transition-colors duration-200 hidden">Download</button>
+                <button id="message-modal-copy-btn" class="bg-gray-200 text-gray-800 py-2 px-4 rounded-full hover:bg-gray-300 transition-colors duration-200 hidden">Copy</button>
+                <button id="message-modal-close-btn" class="bg-rose-600 text-white py-2 px-4 rounded-full hover:bg-rose-700 transition-colors duration-200">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data for charities (NGOs) - Added currentFunding and fundingGoal
+        const charitiesData = [
+            { id: 'charity1', name: 'SOS Children\'s Village', category: 'Children & Youth', location: 'Tlokweng, Botswana', mission: 'Provides a loving home and comprehensive support for orphaned and vulnerable children, ensuring their well-being and development.', impact: 'Supported over 500 children with family-like care and education. Reunited many children with their extended families.', registration: 'Registered under Botswana Societies Act', taxExempt: true, financialTransparency: 'Annual reports available on SOS Botswana website.', successStories: ['Helped numerous children complete their education and become independent adults.', 'Created a safe and nurturing environment for hundreds of at-risk youth.'], contact: 'info@sos-botswana.org', website: 'https://www.sos-childrensvillages.org/where-we-help/africa/botswana', featured: true, recommended: true, currentFunding: 85000, fundingGoal: 100000 },
+            { id: 'charity2', name: 'Stepping Stones International', category: 'Children & Youth', location: 'Mochudi, Botswana', mission: 'Empowering orphaned and vulnerable girls through comprehensive support, including STEM education, life skills, and psychosocial care.', impact: 'Enabled over 300 girls to pursue higher education, with significant enrollment in STEM fields. Reduced teenage pregnancies in target communities.', registration: 'Registered Non-Profit Organisation', taxExempt: true, financialTransparency: 'Impact reports published annually.', successStories: ['Graduates achieving high scores in national exams and securing university placements.', 'Community programs fostering gender equality and awareness.'], contact: 'info@steppingstonesintl.org', website: 'https://steppingstonesintl.org', featured: true, recommended: false, currentFunding: 120000, fundingGoal: 150000 },
+            { id: 'charity3', name: 'Caritas Botswana', category: 'Children & Youth', location: 'Gaborone, Botswana', mission: 'Operating pre-school centers and providing essential education, nutrition, and health services to orphans and vulnerable children across Botswana.', impact: 'Improved early childhood development for thousands of children. Provided daily nutritious meals to underprivileged children.', registration: 'Registered as a Charitable Trust', taxExempt: true, financialTransparency: 'Audited financial statements available.', successStories: ['Enhanced school readiness for children entering primary education.', 'Reduced malnutrition rates among beneficiaries.'], contact: 'caritas@caritasbotswana.org', website: 'http://caritasbotswana.org', featured: false, recommended: true, currentFunding: 45000, fundingGoal: 60000 },
+            { id: 'charity4', name: 'Botswana Youth For Social Development Association (BOYSD)', category: 'Children & Youth', location: 'Gaborone, Botswana', mission: 'Fostering youth development through programs addressing social issues, leadership, and community engagement.', impact: 'Engaged over 1,000 youth in leadership training workshops. Initiated numerous community clean-up and awareness campaigns.', registration: 'Registered Youth Organisation', taxExempt: true, financialTransparency: 'Reports available on request.', successStories: ['Youth-led projects making tangible impacts in local communities.', 'Increased youth participation in national development forums.'], contact: 'boysd@info.org', website: '#', featured: false, recommended: false, currentFunding: 20000, fundingGoal: 30000 },
+            { id: 'charity5', name: 'Elephants for Africa', category: 'Wildlife & Environment', location: 'Maun, Botswana', mission: 'Conducting vital research and delivering education on elephant conservation, promoting human-elephant coexistence.', impact: 'Contributed significantly to elephant population monitoring. Educated local communities on conflict mitigation strategies.', registration: 'Registered Environmental NGO', taxExempt: true, financialTransparency: 'Transparent financial reporting.', successStories: ['Reduced human-elephant conflict incidents in target areas.', 'Published critical research influencing conservation policies.'], contact: 'info@elephantsforafrica.org', website: 'https://www.elephantsforafrica.org', featured: true, recommended: true, currentFunding: 200000, fundingGoal: 250000 },
+            { id: 'charity6', name: 'Khama Rhino Sanctuary', category: 'Wildlife & Environment', location: 'Serowe, Botswana', mission: 'Dedicated to the conservation and protection of Botswana\'s rhinos and other wildlife, while providing economic benefits to local communities.', impact: 'Increased rhino population through effective anti-poaching measures. Generated significant revenue for community development.', registration: 'Conservation Trust', taxExempt: true, financialTransparency: 'Annual financial audits available.', successStories: ['Zero poaching incidents for over five years.', 'Community projects supported by tourism revenue.'], contact: 'info@khamarhinosanctuary.org', website: 'https://khamarhinosanctuary.org', featured: true, recommended: false, currentFunding: 350000, fundingGoal: 400000 },
+            { id: 'charity7', name: 'Botswana Predator Conservation', category: 'Wildlife & Environment', location: 'Maun, Botswana', mission: 'Focuses on the conservation of Botswana\'s large carnivores (lions, leopards, cheetahs, wild dogs) through research, community involvement, and conflict resolution.', impact: 'Reduced livestock predation incidents by working with farmers. Contributed to significant understanding of predator behavior.', registration: 'Registered Wildlife Conservation NGO', taxExempt: true, financialTransparency: 'Annual reports on website.', successStories: ['Developed effective non-lethal predator deterrence methods.', 'Increased tolerance for predators among local communities.'], contact: 'info@botswanapredatorconservation.org', website: 'https://www.botswanapredatorconservation.org', featured: false, recommended: true, currentFunding: 90000, fundingGoal: 120000 },
+            { id: 'charity8', name: 'Botswana Red Cross Society', category: 'Health', location: 'Gaborone, Botswana', mission: 'A major humanitarian organization providing disaster relief, health services, social welfare programs, and promoting humanitarian values.', impact: 'Provided emergency relief to thousands affected by natural disasters. Delivered health education to vulnerable populations.', registration: 'National Red Cross Society', taxExempt: true, financialTransparency: 'International and local audits.', successStories: ['Successful nationwide vaccination campaigns.', 'Established community-based first aid training programs.'], contact: 'info@redcross.org.bw', website: 'https://www.ifrc.org/countries/botswana', featured: true, recommended: true, currentFunding: 180000, fundingGoal: 200000 },
+            { id: 'charity9', name: 'HOPE worldwide Botswana', category: 'Health', location: 'Gaborone, Botswana', mission: 'Provides various health and community development services, including HIV/AIDS awareness, orphan care, and youth programs.', impact: 'Reached thousands with HIV/AIDS prevention messages. Supported hundreds of orphans with education and psychosocial support.', registration: 'Registered Non-Governmental Organization', taxExempt: true, financialTransparency: 'Regular program and financial reports.', successStories: ['Improved adherence to ART for HIV-positive individuals.', 'Empowered youth with life skills and vocational training.'], contact: 'botswana@hopeww.org', website: 'https://www.hopeworldwide.org/countries/botswana', featured: false, recommended: true, currentFunding: 70000, fundingGoal: 80000 },
+            { id: 'charity10', name: 'Africa Matters Initiative', category: 'Other Development', location: 'Gaborone, Botswana (Africa-wide focus)', mission: 'An organization focused on various development initiatives across Africa, empowering young leaders and driving social change.', impact: 'Mentored over 500 young African leaders. Implemented youth-led projects in multiple countries.', registration: 'International NGO', taxExempt: true, financialTransparency: 'Publicly available impact reports.', successStories: ['African youth driving policy changes in their communities.', 'Successful entrepreneurship programs for young people.'], contact: 'info@africamattersinitiative.com', website: 'https://africamattersinitiative.com', featured: false, recommended: false, currentFunding: 100000, fundingGoal: 100000 }, // Fully funded example
+            { id: 'charity11', name: 'Botswana Informal Sector Association (BOISA)', category: 'Other Development', location: 'Gaborone, Botswana', mission: 'Represents and supports informal sector businesses and entrepreneurs, advocating for their rights and providing capacity building.', impact: 'Successfully advocated for better policies for informal traders. Trained hundreds of informal entrepreneurs in business skills.', registration: 'Association', taxExempt: false, financialTransparency: 'Membership-funded. Reports available to members.', successStories: ['Increased recognition of the informal sector\'s contribution to the economy.', 'Improved livelihoods for many informal traders.'], contact: 'info@boisa.org', website: '#', featured: false, recommended: false, currentFunding: 15000, fundingGoal: 50000 },
+            { id: 'charity12', name: 'Botswana Council of NGOs (BOCONGO)', category: 'Other Development', location: 'Gaborone, Botswana', mission: 'Promotes, coordinates, and strengthens the work of NGOs in Botswana, serving as a civil society voice.', impact: 'Facilitated collaboration among over 200 NGOs. Represented civil society in national policy dialogues.', registration: 'Umbrella Body for NGOs', taxExempt: true, financialTransparency: 'Annual reports available to members.', successStories: ['Enhanced capacity of member NGOs through training.', 'Contributed to key policy reforms impacting civil society.'], contact: 'info@bocongo.org.bw', website: 'https://www.bocongo.org.bw', featured: false, recommended: false, currentFunding: 60000, fundingGoal: 75000 },
+            { id: 'charity13', name: 'Peace Corps Botswana', category: 'Other Development', location: 'Gaborone, Botswana', mission: 'Partners with the Botswana government to address critical development challenges in education, health, and environment through volunteer service.', impact: 'Deployed hundreds of volunteers in various sectors across Botswana. Strengthened local capacity in numerous communities.', registration: 'International Government Program', taxExempt: true, financialTransparency: 'Publicly funded program reports.', successStories: ['Improved English literacy in rural schools.', 'Supported local health initiatives and youth clubs.'], contact: 'botswana@peacecorps.gov', website: 'https://www.peacecorps.gov/botswana', featured: false, recommended: false, currentFunding: 25000, fundingGoal: 50000 },
+            { id: 'charity14', name: 'Camphill Community Trust', category: 'Other Development', location: 'Otse, Botswana', mission: 'Provides support, care, education, and vocational training for individuals with disabilities, fostering inclusion and independence.', impact: 'Provided a safe and stimulating environment for dozens of individuals with disabilities. Empowered residents with vocational skills.', registration: 'Charitable Trust', taxExempt: true, financialTransparency: 'Audited financial statements available.', successStories: ['Residents gaining employment and living more independently.', 'Increased public awareness and acceptance of people with disabilities.'], contact: 'info@camphillbotswana.org', website: '#', featured: false, recommended: false, currentFunding: 40000, fundingGoal: 40000 }, // Fully funded example
+            { id: 'charity15', name: 'University of Botswana Foundation', category: 'Other Development', location: 'Gaborone, Botswana', mission: 'Supports the University of Botswana in its mission of academic excellence, research, and community engagement.', impact: 'Funded scholarships for numerous students. Supported groundbreaking research projects.', registration: 'University Foundation', taxExempt: true, financialTransparency: 'Annual financial reports.', successStories: ['Enabled underprivileged students to access higher education.', 'Contributed to national development through research findings.'], contact: 'foundation@ub.ac.bw', website: 'https://www.ub.bw/alumni/ub-foundation', featured: false, recommended: false, currentFunding: 75000, fundingGoal: 100000 }
+        ];
+
+        // Data for Social Enterprises - Examples are localized to Botswana
+        const socialEnterprisesData = [
+            // Example 1: Active, progressing well
+            { id: 'se1', name: 'Eco-Innovate Solutions', sector: 'Renewable Energy', location: 'Gaborone, Botswana', description: 'Developing affordable solar energy solutions for rural communities, reducing reliance on fossil fuels and promoting energy access.', targetInvestment: 500000, currentInvestment: 350000, targetDate: '2025-12-31', roi: 'Projected 15% social ROI in 3 years, 10% financial ROI.', contact: 'invest@ecoinnovate.co', website: 'https://ecoinnovate.co' },
+            // Example 2: Fully funded
+            { id: 'se2', name: 'Agri-Tech Botswana', sector: 'Sustainable Agriculture', location: 'Palapye, Botswana', description: 'Implementing smart farming techniques and drought-resistant crops to enhance food security and empower small-scale farmers.', targetInvestment: 300000, currentInvestment: 300000, targetDate: '2025-06-30', roi: 'Expected 20% increase in farmer income, 8% financial ROI.', contact: 'partner@agritech.org', website: 'https://agritech.org' },
+            // Example 3: Expired, not fully funded
+            { id: 'se3', name: 'Digital Skills Hub', sector: 'EdTech', location: 'Gaborone, Botswana', description: 'Providing accessible digital literacy and coding education to unemployed youth, bridging the skills gap in the tech sector.', targetInvestment: 250000, currentInvestment: 100000, targetDate: '2024-12-31', roi: '90% employment rate for graduates, 12% financial ROI.', contact: 'invest@digitalskillshub.bw', website: 'https://digitalskillshub.bw' },
+            // Example 4: New project, early stage
+            { id: 'se4', name: 'Crafted with Purpose', sector: 'Artisan Support', location: 'Maun, Botswana', description: 'Empowering local artisans by providing fair trade market access and business development training, preserving traditional crafts.', targetInvestment: 150000, currentInvestment: 25000, targetDate: '2026-03-15', roi: 'Increased artisan incomes by 50%, 7% financial ROI.', contact: 'support@craftedpurpose.org', website: 'https://craftedpurpose.org' }
+        ];
+
+        // Placeholder for Investment Recommendations data (will be dynamically generated based on spending patterns)
+        let investmentRecommendationsData = [];
+
+        // Sample donation history data for demonstration
+        let donationHistoryData = []; // Emptied this array as requested
+        let recurringDonationsData = [];
+
+
+        // Map of all sections in the application (UPDATED ORDER)
+        const sections = {
+            home: document.getElementById('home-section'), // New landing page section
+            'social-enterprise': document.getElementById('social-enterprise-section'),
+            'investment-recommendations': document.getElementById('investment-recommendations-section'),
+            discover: document.getElementById('discover-section'),
+            profile: document.getElementById('profile-section'),
+            donate: document.getElementById('donate-section'),
+            investment: document.getElementById('investment-section'), // New investment section
+            history: document.getElementById('history-section'),
+            recurring: document.getElementById('recurring-section')
+        };
+
+        let currentPage = 'home'; // Initial page set to the new landing page
+        let currentCharityId = null;
+        let currentSocialEnterpriseId = null; // New variable to track current social enterprise for investment
+
+        /**
+         * Displays a modal message to the user.
+         * @param {string} title - The title of the modal.
+         * @param {string} message - The message body.
+         * @param {boolean} showCopyButton - Whether to show a copy button for the message.
+         * @param {boolean} showDownloadButton - Whether to show a download button for the message.
+         * @param {string} downloadFilename - The filename for the download (if showDownloadButton is true).
+         */
+        const showMessage = (title, message, showCopyButton = false, showDownloadButton = false, downloadFilename = 'document.txt') => {
+            const modal = document.getElementById('message-modal');
+            const modalContent = document.getElementById('message-modal-content');
+            document.getElementById('message-modal-title').textContent = title;
+            document.getElementById('message-modal-body').textContent = message;
+
+            const copyBtn = document.getElementById('message-modal-copy-btn');
+            copyBtn.classList.toggle('hidden', !showCopyButton);
+            copyBtn.onclick = showCopyButton ? () => copyToClipboard(message) : null;
+
+            const downloadBtn = document.getElementById('message-modal-download-btn');
+            downloadBtn.classList.toggle('hidden', !showDownloadButton);
+            downloadBtn.onclick = showDownloadButton ? () => downloadTextFile(message, downloadFilename) : null;
+
+            modal.classList.remove('hidden');
+            setTimeout(() => { modalContent.classList.remove('scale-95', 'opacity-0'); modalContent.classList.add('scale-100', 'opacity-100'); }, 10);
+        };
+
+        /**
+         * Closes the modal message.
+         */
+        const closeMessageModal = () => {
+            const modal = document.getElementById('message-modal');
+            const modalContent = document.getElementById('message-modal-content');
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        };
+
+        /**
+         * Copies text to the clipboard.
+         * @param {string} text - The text to copy.
+         */
+        const copyToClipboard = (text) => {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed'; // Position off-screen
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showMessage('Copied!', 'Details copied to clipboard.');
+            } catch (err) {
+                showMessage('Error', 'Failed to copy text. Please copy manually.');
+            } finally {
+                document.body.removeChild(textarea);
+            }
+        };
+
+        /**
+         * Downloads a given text content as a file.
+         * @param {string} content - The text content to download.
+         * @param {string} filename - The name of the file to download.
+         */
+        const downloadTextFile = (content, filename) => {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url); // Clean up the URL object
+        };
+
+        /**
+         * Formats a number as Pula currency.
+         * @param {number} amount - The amount to format.
+         * @returns {string} The formatted currency string.
+         */
+        const formatPula = (amount) => `P${parseFloat(amount).toFixed(2)}`;
+
+        /**
+         * Renders the currently active page and updates navigation styles.
+         */
+        const renderPage = () => {
+            // Hide all sections first
+            Object.values(sections).forEach(section => section.classList.add('hidden'));
+            // Show the current active section
+            sections[currentPage].classList.remove('hidden');
+
+            // Update navigation link styles
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('bg-rose-800', 'font-semibold');
+                link.classList.add('font-normal');
+                if (link.dataset.section === currentPage) {
+                    link.classList.add('bg-rose-800', 'font-semibold');
+                }
+            });
+
+            // Call specific render functions based on the current page
+            if (currentPage === 'discover') renderCharitiesList();
+            else if (currentPage === 'social-enterprise') renderSocialEnterprisesList();
+            else if (currentPage === 'investment-recommendations') renderInvestmentRecommendations();
+            else if (currentPage === 'investment') setupInvestmentForm(); // Call setup for new investment page
+            else if (currentPage === 'history') renderDonationHistory();
+            else if (currentPage === 'recurring') renderRecurringDonations();
+        };
+
+        /**
+         * Renders the list of charities based on search and filter criteria.
+         */
+        const renderCharitiesList = () => {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const category = document.getElementById('category-filter').value;
+
+            const filteredCharities = charitiesData.filter(charity => {
+                const matchesSearch = ['name', 'mission', 'category'].some(key => charity[key].toLowerCase().includes(searchTerm));
+                const matchesCategory = !category || charity.category === category;
+                return matchesSearch && matchesCategory;
+            });
+
+            // Helper function to create and append charity cards
+            const createAndAppendCards = (container, charities) => {
+                container.innerHTML = charities.map(charity => {
+                    const fundingPercentage = (charity.currentFunding / charity.fundingGoal) * 100;
+                    const remainingFunding = charity.fundingGoal - charity.currentFunding;
+                    const isFullyFunded = charity.currentFunding >= charity.fundingGoal;
+
+                    return `
+                        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200 cursor-pointer charity-card" data-id="${charity.id}">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-2">${charity.name}</h3>
+                            <p class="text-rose-600 text-sm font-medium mb-2">${charity.category} | ${charity.location}</p>
+                            <p class="text-gray-600 text-sm">${charity.mission.substring(0, 100)}...</p>
+
+                            <div class="mt-4 mb-4">
+                                <div class="flex justify-between items-center mb-1">
+                                    <span class="text-sm font-medium text-gray-700">Achieved: ${formatPula(charity.currentFunding)}</span>
+                                    <span class="text-sm font-medium text-gray-700">Goal: ${formatPula(charity.fundingGoal)}</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-purple-500 h-2.5 rounded-full" style="width: ${Math.min(fundingPercentage, 100)}%;"></div>
+                                </div>
+                                <div class="flex justify-between items-center text-xs text-gray-600 mt-1">
+                                    <span>${fundingPercentage.toFixed(1)}% Funded</span>
+                                    <span>Remaining: ${formatPula(remainingFunding > 0 ? remainingFunding : 0)}</span>
+                                </div>
+                                ${isFullyFunded ? '<p class="text-green-600 text-sm mt-2 font-semibold">Goal Achieved!</p>' : ''}
+                            </div>
+
+                            <button class="mt-4 text-rose-500 hover:text-rose-700 font-medium text-sm">Learn More</button>
+                        </div>
+                    `;
+                }).join('');
+                container.querySelectorAll('.charity-card').forEach(card => {
+                    card.onclick = () => {
+                        currentCharityId = card.dataset.id;
+                        renderCharityProfile(currentCharityId);
+                        currentPage = 'profile';
+                        renderPage();
+                    };
+                });
+            };
+
+            createAndAppendCards(document.getElementById('featured-charities'), filteredCharities.filter(c => c.featured));
+            createAndAppendCards(document.getElementById('recommended-charities'), filteredCharities.filter(c => c.recommended));
+            createAndAppendCards(document.getElementById('all-charities-list'), filteredCharities);
+        };
+
+        /**
+         * Renders the detailed profile of a selected charity.
+         * @param {string} charityId - The ID of the charity to render.
+         */
+        const renderCharityProfile = (charityId) => {
+            const charity = charitiesData.find(c => c.id === charityId);
+            if (!charity) { showMessage('Error', 'Charity not found.'); return; }
+
+            document.getElementById('charity-profile-content').innerHTML = `
+                <h3 class="text-3xl font-bold text-gray-800 mb-4">${charity.name}</h3>
+                <p class="text-rose-600 text-lg font-medium mb-4">${charity.category} | ${charity.location}</p>
+                <h4 class="text-xl font-semibold text-gray-700 mt-6 mb-2">Mission & Impact</h4>
+                <p class="text-gray-700 mb-4">${charity.mission}</p>
+                <p class="text-gray-700 mb-4">${charity.impact}</p>
+                <h4 class="text-xl font-semibold text-gray-700 mt-6 mb-2">Registration & Transparency</h4>
+                <p class="text-gray-700"><strong>Registration:</strong> ${charity.registration}</p>
+                <p class="text-gray-700"><strong>Tax-Exempt Status:</strong> ${charity.taxExempt ? 'Yes' : 'No'}</p>
+                <p class="text-gray-700"><strong>Financials:</strong> ${charity.financialTransparency}</p>
+                ${charity.website ? `<p class="text-gray-700"><strong>Official Website:</strong> <a href="${charity.website}" target="_blank" class="text-rose-500 hover:underline" rel="noopener noreferrer">${charity.website}</a></p>` : ''}
+                ${charity.successStories.length ? `
+                    <h4 class="text-xl font-semibold text-gray-700 mt-6 mb-2">Success Stories</h4>
+                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                        ${charity.successStories.map(story => `<li>${story}</li>`).join('')}
+                    </ul>
+                ` : ''}
+                <h4 class="text-xl font-semibold text-gray-700 mt-6 mb-2">Contact</h4>
+                <p class="text-gray-700"><strong>Email:</strong> ${charity.contact}</p>
+            `;
+        };
+
+        /**
+         * Highlights the selected preset amount button and clears others.
+         * @param {HTMLElement} selectedButton - The button that was clicked.
+         */
+        const highlightPresetButton = (selectedButton = null) => {
+            const presetAmountButtons = document.querySelectorAll('.preset-amount-button');
+            presetAmountButtons.forEach(btn => {
+                btn.classList.remove('bg-rose-700', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-800');
+            });
+            if (selectedButton) {
+                selectedButton.classList.add('bg-rose-700', 'text-white');
+                selectedButton.classList.remove('bg-gray-200', 'text-gray-800');
+            }
+        };
+
+        /**
+         * Resets and sets up the donation form for a new donation.
+         */
+        const setupDonationForm = () => {
+            const charity = charitiesData.find(c => c.id === currentCharityId);
+            if (charity) document.getElementById('donating-to-charity-name').textContent = `Donating to: ${charity.name}`;
+            document.getElementById('donation-form').reset();
+            document.getElementById('recurring-options').classList.add('hidden');
+            document.getElementById('other-amount').value = '';
+            highlightPresetButton(); // Clear all highlights
+        };
+
+        /**
+         * Handles the submission of the donation form.
+         * @param {Event} event - The form submission event.
+         */
+        const handleDonationSubmit = (event) => {
+            event.preventDefault();
+            const selectedCharity = charitiesData.find(c => c.id === currentCharityId);
+            if (!selectedCharity) { showMessage('Error', 'Please select a charity to donate to.'); return; }
+
+            const otherAmountInput = document.getElementById('other-amount');
+            let amount = parseFloat(otherAmountInput.value);
+            const selectedPreset = document.querySelector('.preset-amount-button.bg-rose-700');
+            if ((isNaN(amount) || amount <= 0) && selectedPreset) amount = parseFloat(selectedPreset.dataset.amount);
+            if (isNaN(amount) || amount <= 0) { showMessage('Input Error', 'Please enter a valid donation amount.'); return; }
+
+            const donationType = document.querySelector('input[name="donation-type"]:checked').value;
+            const recurrenceFrequency = donationType === 'recurring' ? document.getElementById('recurrence-frequency').value : null;
+            const paymentMethod = document.getElementById('payment-method').value;
+            const anonymous = document.getElementById('anonymous-donation').checked;
+
+            const newDonation = {
+                id: `d${donationHistoryData.length + 1}`, charityId: selectedCharity.id, charityName: anonymous ? 'Anonymous' : selectedCharity.name,
+                amount: amount, date: new Date().toISOString().slice(0, 10), type: donationType, anonymous: anonymous, receiptGenerated: true
+            };
+            donationHistoryData.push(newDonation);
+
+            // Update charity's current funding
+            selectedCharity.currentFunding += amount;
+
+            if (donationType === 'recurring') {
+                recurringDonationsData.push({
+                    id: `r${recurringDonationsData.length + 1}`, charityId: selectedCharity.id, charityName: anonymous ? 'Anonymous' : selectedCharity.name,
+                    amount: amount, frequency: recurrenceFrequency, nextDue: new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString().slice(0, 10), status: 'active'
+                });
+            }
+
+            const receiptText = `
+--- Your Generous Contribution ---
+💡 Thank you for your impactful donation! 💡
+
+Date: ${newDonation.date}
+Charity: ${anonymous ? 'Anonymous Donation' : selectedCharity.name}
+Amount: ${formatPula(amount)}
+Donation Type: ${donationType === 'one-time' ? 'One-Time' : `Recurring (${recurrenceFrequency})`}
+Payment Method: ${paymentMethod}
+
+Your support helps us make a real difference!
+Tax-Deductible: Yes (Consult your local tax authority for details)
+
+With deepest gratitude,
+The Botho Neo Team
+------------------------------------`;
+            showMessage('Donation Successful!', `Your donation of ${formatPula(amount)} to ${anonymous ? 'an anonymous charity' : selectedCharity.name} has been processed.`, true, false); // No download here, download via history
+            currentPage = 'history';
+            renderPage();
+        };
+
+        /**
+         * Sets up the investment form for a new investment.
+         */
+        const setupInvestmentForm = () => {
+            const socialEnterprise = socialEnterprisesData.find(se => se.id === currentSocialEnterpriseId);
+            if (socialEnterprise) {
+                document.getElementById('investing-in-social-enterprise-name').textContent = `Investing in: ${socialEnterprise.name}`;
+            }
+            document.getElementById('investment-form').reset();
+            document.getElementById('investment-amount').value = '';
+        };
+
+        /**
+         * Handles the submission of the investment form.
+         * @param {Event} event - The form submission event.
+         */
+        const handleInvestmentSubmit = (event) => {
+            event.preventDefault();
+            const socialEnterprise = socialEnterprisesData.find(se => se.id === currentSocialEnterpriseId);
+            if (!socialEnterprise) { showMessage('Error', 'Social Enterprise not found.'); return; }
+
+            const amountInput = document.getElementById('investment-amount');
+            const amount = parseFloat(amountInput.value);
+
+            if (isNaN(amount) || amount <= 0) {
+                showMessage('Input Error', 'Please enter a valid investment amount.');
+                return;
+            }
+
+            // Update the social enterprise's current investment
+            socialEnterprise.currentInvestment += amount;
+
+            showMessage('Investment Successful!', `Your investment of ${formatPula(amount)} in ${socialEnterprise.name} has been processed. Thank you for your support!`, true);
+            currentPage = 'social-enterprise'; // Navigate back to social enterprises list
+            renderPage();
+        };
+
+
+        /**
+         * Renders the user's donation history.
+         */
+        const renderDonationHistory = () => {
+            let totalDonationsLifetime = 0;
+            let totalDonationsThisMonth = 0;
+            const uniqueCharities = new Set();
+            const tableBody = document.getElementById('transaction-history-table');
+            tableBody.innerHTML = '';
+
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+
+            if (donationHistoryData.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                            No donation history available. Make a donation to see it here!
+                        </td>
+                    </tr>
+                `;
+            } else {
+                donationHistoryData.forEach(donation => {
+                    const donationDate = new Date(donation.date);
+                    totalDonationsLifetime += donation.amount;
+                    uniqueCharities.add(donation.charityId);
+
+                    if (donationDate.getMonth() === currentMonth && donationDate.getFullYear() === currentYear) {
+                        totalDonationsThisMonth += donation.amount;
+                    }
+
+                    const row = document.createElement('tr');
+                    row.classList.add('hover:bg-gray-50');
+                    row.innerHTML = `<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${donation.date}</td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${donation.charityName}</td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 font-medium">${formatPula(donation.amount)}</td><td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${donation.type === 'one-time' ? 'One-Time' : 'Recurring'}</td><td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"><button class="text-rose-600 hover:text-rose-900" onclick="generateReceipt('${donation.id}')">View Receipt</button></td>`;
+                    tableBody.appendChild(row);
+                });
+            }
+
+
+            document.getElementById('total-donations').textContent = formatPula(totalDonationsLifetime);
+            document.getElementById('charities-supported').textContent = uniqueCharities.size;
+
+            // Update Lifetime Donations Progress Bar (REMOVED)
+            // Update Monthly Donations Progress Bar (REMOVED)
+        };
+
+        /**
+         * Generates and displays a receipt for a specific donation.
+         * @param {string} donationId - The ID of the donation to generate a receipt for.
+         */
+        const generateReceipt = (donationId) => {
+            const donation = donationHistoryData.find(d => d.id === donationId);
+            if (!donation) { showMessage('Error', 'Donation record not found.'); return; }
+            const charity = charitiesData.find(c => c.id === donation.charityId) || { name: 'Unknown Charity' };
+            const receiptCharityName = donation.anonymous ? 'Anonymous Donation' : charity.name;
+            const receiptText = `
+--- Your Generous Contribution ---
+💡 Thank you for your impactful donation! 💡
+
+Date: ${donation.date}
+Charity: ${receiptCharityName}
+Amount: ${formatPula(donation.amount)}
+Donation Type: ${donation.type === 'one-time' ? 'One-Time' : 'Recurring'}
+
+Your support helps us make a real difference!
+Tax-Deductible: Yes (Consult your local tax authority for details)
+
+With deepest gratitude,
+The Botho Neo Team
+------------------------------------`;
+            showMessage('Donation Receipt', receiptText, true, true, `receipt_${donation.id}.txt`);
+        };
+
+        /**
+         * Generates and displays an annual donation statement.
+         */
+        const generateAnnualStatement = () => {
+            const currentYear = new Date().getFullYear();
+            const annualDonations = donationHistoryData.filter(d => d.date.startsWith(currentYear.toString()));
+            if (!annualDonations.length) { showMessage('Annual Statement', `It looks like you haven't made any donations yet in ${currentYear}. Every contribution, big or small, helps create a better future!`); return; }
+
+            const summary = annualDonations.map(d => `- ${d.date}: ${d.charityName} - ${formatPula(d.amount)}`).join('\n');
+            const totalAnnualDonation = annualDonations.reduce((sum, d) => sum + d.amount, 0);
+
+            const statementText = `
+--- Your Impact in ${currentYear} ---
+
+Dear Valued Customer,
+
+We are grateful for your commitment to making a positive impact through the Botho Neo platform in ${currentYear}.
+
+Here’s a summary of the donations made:
+${summary}
+
+Total Contributions in ${currentYear}: ${formatPula(totalAnnualDonation)}
+
+Every Pula you've given has contributed to meaningful change.
+
+For tax purposes, please keep this statement.
+
+Together, we're building a brighter future.
+
+Warmly,
+The Botho Neo Team
+------------------------------------`;
+            showMessage(`Annual Statement ${currentYear}`, statementText, true, true, `annual_statement_${currentYear}.txt`);
+        };
+
+        /**
+         * Renders the list of recurring donations.
+         */
+        const renderRecurringDonations = () => {
+            const tableBody = document.getElementById('recurring-donations-table');
+            tableBody.innerHTML = '';
+            if (recurringDonationsData.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">
+                            No recurring donations set up yet.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            recurringDonationsData.forEach(recurring => {
+                const row = document.createElement('tr');
+                row.classList.add('hover:bg-gray-50');
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${recurring.charityName}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 font-medium">${formatPula(recurring.amount)}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 capitalize">${recurring.frequency}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${recurring.nextDue}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-left text-sm font-medium space-x-2">
+                        <button class="text-rose-600 hover:text-rose-900" onclick="modifyRecurring('${recurring.id}')">Modify</button>
+                        ${recurring.status === 'active' ? `<button class="text-yellow-600 hover:text-yellow-900" onclick="pauseRecurring('${recurring.id}')">Pause</button>` : `<button class="text-green-600 hover:text-green-900" onclick="resumeRecurring('${recurring.id}')">Resume</button>`}
+                        <button class="text-red-600 hover:text-red-900" onclick="cancelRecurring('${recurring.id}')">Cancel</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+        };
+
+        /**
+         * Placeholder function for modifying a recurring donation.
+         * @param {string} id - The ID of the recurring donation.
+         */
+        const modifyRecurring = (id) => {
+            const recurring = recurringDonationsData.find(r => r.id === id);
+            if (recurring) showMessage('Modify Donation', `You can modify your recurring donation to ${recurring.charityName} (${formatPula(recurring.amount)} ${recurring.frequency}). This feature is under development.`);
+        };
+
+        /**
+         * Pauses a recurring donation.
+         * @param {string} id - The ID of the recurring donation to pause.
+         */
+        const pauseRecurring = (id) => {
+            const recurring = recurringDonationsData.find(r => r.id === id);
+            if (recurring) { recurring.status = 'paused'; showMessage('Donation Paused', `Your recurring donation to ${recurring.charityName} has been paused.`); renderRecurringDonations(); }
+        };
+
+        /**
+         * Resumes a recurring donation.
+         * @param {string} id - The ID of the recurring donation to resume.
+         */
+        const resumeRecurring = (id) => {
+            const recurring = recurringDonationsData.find(r => r.id === id);
+            if (recurring) { recurring.status = 'active'; showMessage('Donation Resumed', `Your recurring donation to ${recurring.charityName} has been resumed.`); renderRecurringDonations(); }
+        };
+
+        /**
+         * Cancels a recurring donation.
+         * @param {string} id - The ID of the recurring donation to cancel.
+         */
+        const cancelRecurring = (id) => {
+            recurringDonationsData = recurringDonationsData.filter(r => r.id !== id);
+            showMessage('Donation Cancelled', 'Your recurring donation has been successfully cancelled.');
+            renderRecurringDonations();
+        };
+
+        /**
+         * Renders the list of social enterprises based on search and filter criteria,
+         * including funding progress and time limits.
+         */
+        const renderSocialEnterprisesList = () => {
+            const searchTerm = document.getElementById('social-enterprise-search-input').value.toLowerCase();
+            const category = document.getElementById('social-enterprise-category-filter').value;
+            const today = new Date(); // Get current date for comparison
+
+            const filteredEnterprises = socialEnterprisesData.filter(enterprise => {
+                const matchesSearch = ['name', 'description', 'sector'].some(key => enterprise[key].toLowerCase().includes(searchTerm));
+                const matchesCategory = !category || enterprise.sector === category;
+                return matchesSearch && matchesCategory;
+            });
+
+            const container = document.getElementById('social-enterprise-list');
+            container.innerHTML = filteredEnterprises.map(enterprise => {
+                const achievedPercentage = (enterprise.currentInvestment / enterprise.targetInvestment) * 100;
+                const remainingAmount = enterprise.targetInvestment - enterprise.currentInvestment;
+                const targetDate = new Date(enterprise.targetDate);
+                const isFunded = enterprise.currentInvestment >= enterprise.targetInvestment;
+                const isExpired = today > targetDate && !isFunded; // Expired only if target date passed and not funded
+
+                let statusMessage = '';
+                let statusColorClass = 'text-gray-600';
+                let actionButton = '';
+
+                if (isFunded) {
+                    statusMessage = 'Funded!';
+                    statusColorClass = 'text-green-600 font-bold';
+                    actionButton = `<a href="${enterprise.website}" target="_blank" class="mt-4 inline-block bg-green-500 text-white py-2 px-4 rounded-full text-sm hover:bg-green-600 transition-colors duration-200">View Project</a>`;
+                } else if (isExpired) {
+                    statusMessage = 'Expired! Funding Target Not Met.';
+                    statusColorClass = 'text-red-600 font-bold';
+                    actionButton = `<button class="mt-4 inline-block bg-red-500 text-white py-2 px-4 rounded-full text-sm cursor-not-allowed opacity-50" disabled>Funding Closed</button>`;
+                } else {
+                    const timeLeft = Math.ceil((targetDate - today) / (1000 * 60 * 60 * 24)); // Days left
+                    statusMessage = `Time Left: ${timeLeft} days`;
+                    statusColorClass = 'text-orange-600';
+                    // Changed from <a> to <button> and added onclick handler
+                    actionButton = `<button data-id="${enterprise.id}" class="invest-now-btn mt-4 inline-block bg-rose-500 text-white py-2 px-4 rounded-full text-sm hover:bg-rose-600 transition-colors duration-200">Invest Now</button>`;
+                }
+
+                return `
+                    <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">${enterprise.name}</h3>
+                        <p class="text-blue-600 text-sm font-medium mb-2">${enterprise.sector} | ${enterprise.location}</p>
+                        <p class="text-gray-600 text-sm mb-4">${enterprise.description.substring(0, 150)}...</p>
+
+                        <div class="mb-4">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-sm font-medium text-gray-700">Achieved: ${formatPula(enterprise.currentInvestment)}</span>
+                                <span class="text-sm font-medium text-gray-700">Goal: ${formatPula(enterprise.targetInvestment)}</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-rose-500 h-2.5 rounded-full" style="width: ${Math.min(achievedPercentage, 100)}%;"></div>
+                            </div>
+                            <div class="flex justify-between items-center text-xs text-gray-600 mt-1">
+                                <span>${achievedPercentage.toFixed(1)}% Funded</span>
+                                <span>Remaining: ${formatPula(remainingAmount > 0 ? remainingAmount : 0)}</span>
+                            </div>
+                        </div>
+
+                        <div class="text-sm text-gray-700 mb-4">
+                            <p><strong>Deadline:</strong> ${enterprise.targetDate}</p>
+                            <p class="${statusColorClass}">${statusMessage}</p>
+                        </div>
+
+                        <div class="mt-4">
+                            <p class="text-gray-700 text-sm"><strong>Projected ROI:</strong> ${enterprise.roi}</p>
+                        </div>
+                        ${actionButton}
+                    </div>
+                `;
+            }).join('');
+
+            if (filteredEnterprises.length === 0) {
+                container.innerHTML = '<p class="text-gray-600 text-center col-span-full">No social enterprises found matching your criteria.</p>';
+            }
+
+            // Add event listeners for the new "Invest Now" buttons
+            container.querySelectorAll('.invest-now-btn').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    currentSocialEnterpriseId = event.target.dataset.id;
+                    currentPage = 'investment';
+                    renderPage();
+                });
+            });
+        };
+
+        /**
+         * Generates and renders personalized investment recommendations.
+         * This is a placeholder for AI/ML integration.
+         */
+        const renderInvestmentRecommendations = () => {
+            // In a real application, this would fetch data from a backend
+            // based on user spending patterns. For this example, we'll use mock data.
+            const mockSpendingPatterns = [
+                { category: 'Eco-Friendly Products', amount: 500, keywords: ['sustainable', 'organic', 'recycled'] },
+                { category: 'Local Produce', amount: 300, keywords: ['local farms', 'community supported agriculture'] },
+                { category: 'Online Courses', amount: 200, keywords: ['education', 'upskilling', 'e-learning'] }
+            ];
+
+            // Generate recommendations based on mock spending patterns
+            investmentRecommendationsData = [];
+            mockSpendingPatterns.forEach(pattern => {
+                if (pattern.category === 'Eco-Friendly Products') {
+                    investmentRecommendationsData.push({
+                        id: 'rec1',
+                        title: 'Green Bonds for Renewable Energy',
+                        description: 'Invest in green bonds that fund renewable energy projects in Southern Africa. Aligns with your interest in eco-friendly products.',
+                        type: 'Green Bond',
+                        potentialReturn: '4-6% p.a.',
+                        risk: 'Medium',
+                        link: 'javascript:void(0);' // Ensure inactive links don't navigate
+                    });
+                } else if (pattern.category === 'Local Produce') {
+                    investmentRecommendationsData.push({
+                        id: 'rec2',
+                        title: 'Equity in Sustainable Agriculture Startups',
+                        description: 'Consider equity investments in local agricultural startups focusing on sustainable and organic farming practices.',
+                        type: 'Equity Investment',
+                        potentialReturn: 'High (long-term)',
+                        risk: 'High',
+                        link: 'javascript:void(0);' // Ensure inactive links don't navigate
+                    });
+                } else if (pattern.category === 'Online Courses') {
+                    investmentRecommendationsData.push({
+                        id: 'rec3',
+                        title: 'Impact Fund for EdTech Innovations',
+                        description: 'Contribute to an impact fund supporting educational technology innovations aimed at improving access to quality learning.',
+                        type: 'Impact Fund',
+                        potentialReturn: 'Social & Financial (moderate)',
+                        risk: 'Medium',
+                        link: 'javascript:void(0);' // Ensure inactive links don't navigate
+                    });
+                }
+            });
+
+            const container = document.getElementById('recommendations-list');
+            container.innerHTML = investmentRecommendationsData.map(rec => `
+                <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-200">
+                    <h3 class="text-xl font-semibold text-gray-800 mb-2">${rec.title}</h3>
+                    <p class="text-purple-600 text-sm font-medium mb-2">${rec.type}</p>
+                    <p class="text-gray-600 text-sm">${rec.description}</p>
+                    <div class="mt-4">
+                        <p class="text-gray-700 text-sm"><strong>Potential Return:</strong> ${rec.potentialReturn}</p>
+                        <p class="text-gray-700 text-sm"><strong>Risk Level:</strong> ${rec.risk}</p>
+                    </div>
+                    <a href="${rec.link}" class="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded-full text-sm hover:bg-blue-600 transition-colors duration-200">Explore Option</a>
+                </div>
+            `).join('');
+
+            if (investmentRecommendationsData.length === 0) {
+                container.innerHTML = '<p class="text-gray-600 text-center col-span-full">No personalized recommendations available yet. Start by tracking your spending patterns to help us provide tailored suggestions!</p>';
+            }
+        };
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPage(); // Initial page render
+
+            // Navigation links click handler
+            document.querySelector('nav ul').addEventListener('click', (e) => {
+                if (e.target.tagName === 'A' && e.target.dataset.section) {
+                    e.preventDefault();
+                    currentPage = e.target.dataset.section;
+                    renderPage();
+                }
+            });
+
+            // Discover Charities section event listeners
+            document.getElementById('search-input').addEventListener('input', renderCharitiesList);
+            document.getElementById('category-filter').addEventListener('change', renderCharitiesList);
+
+            // Social Enterprise section event listeners
+            document.getElementById('social-enterprise-search-input').addEventListener('input', renderSocialEnterprisesList);
+            document.getElementById('social-enterprise-category-filter').addEventListener('change', renderSocialEnterprisesList);
+
+            // Back buttons for Profile and Donate sections
+            document.getElementById('back-to-discover').addEventListener('click', () => { currentPage = 'discover'; renderPage(); });
+            document.getElementById('donate-now-button').addEventListener('click', () => { currentPage = 'donate'; setupDonationForm(); renderPage(); });
+            document.getElementById('back-to-profile').addEventListener('click', () => { currentPage = 'profile'; renderPage(); });
+
+            // Back button for Investment section
+            document.getElementById('back-to-social-enterprises').addEventListener('click', () => { currentPage = 'social-enterprise'; renderPage(); });
+
+            // Donation form specific event listeners
+            document.querySelectorAll('input[name="donation-type"]').forEach(radio => {
+                radio.addEventListener('change', (event) => {
+                    document.getElementById('recurring-options').classList.toggle('hidden', event.target.value !== 'recurring');
+                });
+            });
+
+            document.querySelectorAll('.preset-amount-button').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    document.getElementById('other-amount').value = event.target.dataset.amount;
+                    highlightPresetButton(event.target);
+                });
+            });
+
+            document.getElementById('other-amount').addEventListener('input', () => {
+                highlightPresetButton(); // Clear all highlights when custom amount is typed
+            });
+
+            document.getElementById('donation-form').addEventListener('submit', handleDonationSubmit);
+            document.getElementById('generate-annual-statement').addEventListener('click', generateAnnualStatement);
+
+            // Investment form specific event listener
+            document.getElementById('investment-form').addEventListener('submit', handleInvestmentSubmit);
+
+            // Message modal close listeners
+            document.getElementById('message-modal-close-btn').addEventListener('click', closeMessageModal);
+            document.getElementById('message-modal').addEventListener('click', (e) => {
+                // Close modal if backdrop is clicked
+                if (e.target === document.getElementById('message-modal')) closeMessageModal();
+            });
+        });
+    </script>
+</body>
+</html>
